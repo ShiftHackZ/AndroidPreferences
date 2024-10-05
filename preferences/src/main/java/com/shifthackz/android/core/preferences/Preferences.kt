@@ -22,6 +22,20 @@ class PreferencesDelegates(
         onChanged = onChanged,
     )
 
+    fun <T> complexBoolean(
+        default: T,
+        serialize: (T) -> Boolean,
+        deserialize: (Boolean) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getBoolean(k, serialize(d)))},
+        setter = { k, v -> preferences.edit().putBoolean(k, serialize(v)) },
+        onChanged = onChanged,
+    )
+
     fun int(
         default: Int = 0,
         key: String? = null,
@@ -31,6 +45,20 @@ class PreferencesDelegates(
         key = key,
         getter = preferences::getInt,
         setter = preferences.edit()::putInt,
+        onChanged = onChanged,
+    )
+
+    fun <T> complexInt(
+        default: T,
+        serialize: (T) -> Int,
+        deserialize: (Int) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getInt(k, serialize(d)))},
+        setter = { k, v -> preferences.edit().putInt(k, serialize(v)) },
         onChanged = onChanged,
     )
 
@@ -46,6 +74,20 @@ class PreferencesDelegates(
         onChanged = onChanged,
     )
 
+    fun <T> complexFloat(
+        default: T,
+        serialize: (T) -> Float,
+        deserialize: (Float) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getFloat(k, serialize(d)))},
+        setter = { k, v -> preferences.edit().putFloat(k, serialize(v)) },
+        onChanged = onChanged,
+    )
+
     fun long(
         default: Long = 0L,
         key: String? = null,
@@ -55,6 +97,20 @@ class PreferencesDelegates(
         key = key,
         getter = preferences::getLong,
         setter = preferences.edit()::putLong,
+        onChanged = onChanged,
+    )
+
+    fun <T> complexLong(
+        default: T,
+        serialize: (T) -> Long,
+        deserialize: (Long) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getLong(k, serialize(d)))},
+        setter = { k, v -> preferences.edit().putLong(k, serialize(v)) },
         onChanged = onChanged,
     )
 
@@ -93,6 +149,20 @@ class PreferencesDelegates(
         key = key,
         getter = { k, d -> preferences.getStringSet(k, d) as Set<String> },
         setter = preferences.edit()::putStringSet,
+        onChanged = onChanged,
+    )
+
+    fun <T> complexStringSet(
+        default: T,
+        serialize: (T) -> Set<String>,
+        deserialize: (Set<String>) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getStringSet(k, serialize(d)) as Set<String>)},
+        setter = { k, v -> preferences.edit().putStringSet(k, serialize(v)) },
         onChanged = onChanged,
     )
 
