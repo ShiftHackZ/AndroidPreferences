@@ -8,6 +8,7 @@ interface PreferencesManager {
     var count: Int
     var point: Float
     var long: Long
+    var enumExample: EnumExample
 }
 
 class PreferencesManagerExample(
@@ -24,4 +25,11 @@ class PreferencesManagerExample(
 
     override var long: Long by preferences.delegates.long()
 
+    override var enumExample: EnumExample by preferences.delegates.complexString(
+        serialize = { it.name },
+        deserialize = { value ->
+            EnumExample.entries.find { it.name == value } ?: EnumExample.entries.first()
+        },
+        default = EnumExample.entries.first(),
+    )
 }

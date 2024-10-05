@@ -70,6 +70,20 @@ class PreferencesDelegates(
         onChanged = onChanged,
     )
 
+    fun <T> complexString(
+        default: T,
+        serialize: (T) -> String,
+        deserialize: (String) -> T,
+        key: String? = null,
+        onChanged: (T) -> Unit = {},
+    ): ReadWriteProperty<Any, T> = create(
+        default = default,
+        key = key,
+        getter = { k, d -> deserialize(preferences.getString(k, serialize(d)) as String)},
+        setter = { k, v -> preferences.edit().putString(k, serialize(v)) },
+        onChanged = onChanged,
+    )
+
     fun stringSet(
         default: Set<String> = emptySet(),
         key: String? = null,
